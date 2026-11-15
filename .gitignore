@@ -1,0 +1,12 @@
+# Vercel link and local tokens
+.vercel
+.env*
+
+# Python and scratch output from the tools
+__pycache__/
+*.pyc
+x.mp4
+
+# OS noise
+Thumbs.db
+.DS_Store
