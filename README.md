@@ -3,7 +3,7 @@
 A scroll-driven concept site for a fine-jewellery brand. One ring is followed from the opening film,
 through four chapters (anatomy, atelier, exploded parts, configure), into its box, which closes on the last scroll.
 
-**Live:** https://amara-jewellery-indol.vercel.app
+**Live:** https://amara-jewellery-five.vercel.app
 
 Static site: plain HTML, CSS and JavaScript, no build step.
 
@@ -22,11 +22,9 @@ running the server, and only while it is running.
 
 ## Deploy
 
-The live site is the `site/` folder on Vercel (project `amara-jewellery`). To publish changes:
-
-```bash
-npx vercel deploy --prod --yes --cwd site
-```
+The Vercel project `amara-jewellery` is connected to this repository: every push to `main` deploys.
+The page lives in `site/`, not at the repository root, so `vercel.json` tells Vercel to serve that folder
+(`"outputDirectory": "site"`). Without it the deploy succeeds but every address returns 404.
 
 ## What is in here
 
