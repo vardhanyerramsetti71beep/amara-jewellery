@@ -156,6 +156,7 @@
     video.style.transform = `scale(${1 + 0.14 * seg(P, 0, 0.5)})`;
     white.style.opacity = io(seg(P, 0.08, 0.36));
     hdr.classList.toggle("is-ink", P > 0.2);
+    hdr.classList.toggle("is-past", s > L.Fend + 4);
     if (P > 0.45 && !video.paused) video.pause();
     else if (P <= 0.45 && video.paused && !userPaused) video.play().catch(() => {
     });

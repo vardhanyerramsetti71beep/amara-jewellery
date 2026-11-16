@@ -7,19 +7,22 @@
   const inr = (n) => "₹" + n.toLocaleString("en-IN");
   const HEART = '<svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.600 4.300 4.300 0 0 1 19.500 10c0 5.600-7.500 10-7.500 10Z"/></svg>';
   const P = [
-    { id: "petal-ring", name: "Petal Mini Ring", cat: "Rings", price: 38900, img: "assets/p-ring.jpg", white: true, note: "18k yellow gold band with a white enamel inlay and five flush-set diamonds.", tag: "Bestseller" },
-    { id: "petal-hoops", name: "Petal Mini Hoops", cat: "Earrings", price: 46200, img: "assets/p-hoops.jpg", white: true, note: "Hollow-formed 18k gold tube hoops — bold to look at, weightless to wear.", tag: "Bestseller" },
-    { id: "petal-drops", name: "Petal Mini Drops", cat: "Earrings", price: 54500, img: "assets/p-drops.jpg", white: true, note: "Gold huggies with removable emerald-cut diamond charms.", tag: "Bestseller" },
-    { id: "petal-pendant", name: "Petal Mini Pendant", cat: "Necklaces", price: 32800, img: "assets/p-pendant.jpg", white: true, note: "A single bezel-set brilliant on a fine 18k cable chain, 40–45 cm.", tag: "Bestseller" },
-    { id: "flora-ring", name: "Flora Halo Ring", cat: "Engagement", price: 285e3, img: "assets/ring.webp", contain: true, note: "A 1.2 ct brilliant in a ten-stone petal halo, on a pavé band of recycled 18k gold. The ring from the film.", tag: "New" },
-    { id: "aeon-band", name: "Aeon Eternity Band", cat: "Rings", price: 145e3, img: "assets/c-rings.jpg", note: "Round brilliants in shared claws, all the way around." },
-    { id: "dew-drops", name: "Dew Diamond Drops", cat: "Earrings", price: 124e3, img: "assets/c-earrings.jpg", note: "Brilliant studs with pear-cut diamond drops in white gold." },
-    { id: "sol-necklace", name: "Sol Solitaire Necklace", cat: "Necklaces", price: 89e3, img: "assets/c-necklaces.jpg", note: "A four-claw solitaire on a whisper-fine white gold chain." },
-    { id: "orbit-bracelet", name: "Orbit Satellite Bracelet", cat: "Bracelets", price: 27400, img: "assets/c-bracelets.jpg", note: "White gold satellite chain with hand-polished beads." },
-    { id: "vow-bands", name: "Vow Wedding Bands", cat: "Engagement", price: 64e3, img: "assets/c-engagement.jpg", note: "A pair of slim court-profile bands in 18k yellow gold." }
+    { id: "petal-ring", metal: "Yellow gold", tint: true, name: "Petal Mini Ring", cat: "Rings", price: 38900, img: "assets/p-ring.jpg", white: true, note: "18k yellow gold band with a white enamel inlay and five flush-set diamonds.", tag: "Bestseller" },
+    { id: "petal-hoops", metal: "Yellow gold", tint: true, name: "Petal Mini Hoops", cat: "Earrings", price: 46200, img: "assets/p-hoops.jpg", white: true, note: "Hollow-formed 18k gold tube hoops — bold to look at, weightless to wear.", tag: "Bestseller" },
+    { id: "petal-drops", metal: "Yellow gold", tint: true, name: "Petal Mini Drops", cat: "Earrings", price: 54500, img: "assets/p-drops.jpg", white: true, note: "Gold huggies with removable emerald-cut diamond charms.", tag: "Bestseller" },
+    { id: "petal-pendant", metal: "Yellow gold", tint: true, name: "Petal Mini Pendant", cat: "Necklaces", price: 32800, img: "assets/p-pendant.jpg", white: true, note: "A single bezel-set brilliant on a fine 18k cable chain, 40–45 cm.", tag: "Bestseller" },
+    { id: "flora-ring", metal: "Yellow gold", tint: true, name: "Flora Halo Ring", cat: "Engagement", price: 285e3, img: "assets/ring.webp", contain: true, note: "A 1.2 ct brilliant in a ten-stone petal halo, on a pavé band of recycled 18k gold. The ring from the film.", tag: "New" },
+    { id: "aeon-band", metal: "White gold", name: "Aeon Eternity Band", cat: "Rings", price: 145e3, img: "assets/c-rings.jpg", note: "Round brilliants in shared claws, all the way around." },
+    { id: "dew-drops", metal: "White gold", name: "Dew Diamond Drops", cat: "Earrings", price: 124e3, img: "assets/c-earrings.jpg", note: "Brilliant studs with pear-cut diamond drops in white gold." },
+    { id: "sol-necklace", metal: "White gold", name: "Sol Solitaire Necklace", cat: "Necklaces", price: 89e3, img: "assets/c-necklaces.jpg", note: "A four-claw solitaire on a whisper-fine white gold chain." },
+    { id: "orbit-bracelet", metal: "White gold", name: "Orbit Satellite Bracelet", cat: "Bracelets", price: 27400, img: "assets/c-bracelets.jpg", note: "White gold satellite chain with hand-polished beads." },
+    { id: "vow-bands", metal: "Yellow gold", name: "Vow Wedding Bands", cat: "Engagement", price: 64e3, img: "assets/c-engagement.jpg", note: "A pair of slim court-profile bands in 18k yellow gold." }
   ];
   const byId = (id) => P.find((p) => p.id === id);
   const METALS = [["Yellow gold", "#d9b56a"], ["White gold", "#dcdcdc"], ["Rose gold", "#dfa992"]];
+  const METAL_KEY = { "Yellow gold": "yellow", "White gold": "white", "Rose gold": "rose" };
+  // data-m value for a product photo shown in `metal`; empty when the photo cannot be re-tinted
+  const tintOf = (p, metal) => p.tint && METAL_KEY[metal] !== "yellow" ? METAL_KEY[metal] || "" : "";
   const store = { get(k, d) {
     try {
       return JSON.parse(localStorage.getItem("amara:" + k)) ?? d;
@@ -172,7 +175,7 @@
       list.innerHTML = bag.length ? bag.map((it, i) => {
         const p = byId(it.id);
         return `
-        <div class="row"><img src="${p.img}" alt="" ${p.contain ? 'style="object-fit:contain;padding:8px"' : ""}>
+        <div class="row"><img src="${p.img}" alt="" data-m="${tintOf(p, it.metal)}" ${p.contain ? 'style="object-fit:contain;padding:8px"' : ""}>
           <div><b>${p.name}</b><small>${it.metal}${it.size ? " · size " + it.size : ""}</small>
             <span class="qty"><button type="button" data-qty="${i},-1" aria-label="Decrease quantity">−</button><span>${it.qty}</span><button type="button" data-qty="${i},1" aria-label="Increase quantity">+</button></span></div>
           <div class="row__r"><span>${inr(p.price * it.qty)}</span><button type="button" class="row__x" data-rm="${i}">Remove</button></div></div>`;
@@ -190,7 +193,8 @@
       sum.hidden = true;
     }
   }
-  function addToBag(id, metal = METALS[0][0], size = null) {
+  function addToBag(id, metal, size = null) {
+    metal = metal || byId(id).metal || METALS[0][0];
     const hit = bag.find((i) => i.id === id && i.metal === metal && i.size === size);
     hit ? hit.qty++ : bag.push({ id, qty: 1, metal, size });
     store.set("bag", bag);
@@ -229,7 +233,11 @@
     const p = byId(id);
     if (!p) return;
     const sized = p.cat === "Rings" || p.cat === "Engagement";
-    qv = { id, metal: METALS[0][0], size: sized ? "12" : null };
+    const chosen = id === "flora-ring" && METALS.find(([m]) => METAL_KEY[m] === document.documentElement.dataset.metal);
+    qv = { id, metal: chosen ? chosen[0] : p.metal || METALS[0][0], size: sized ? "12" : null };
+    modal.dataset.metal = tintOf(p, qv.metal);
+    qs("hint").hidden = !!p.tint;
+    qs("hint").textContent = p.tint ? "" : `Shown in ${(p.metal || METALS[0][0]).toLowerCase()}. Made to order in any of the three.`;
     const img = $(".modal__img img", modal);
     img.src = p.img;
     img.alt = p.name;
@@ -280,6 +288,7 @@
     }
     if (d.metal) {
       qv.metal = d.metal;
+      modal.dataset.metal = tintOf(byId(qv.id), qv.metal);
       $$("[data-metal]", modal).forEach((b) => b.setAttribute("aria-pressed", b === t));
       return;
     }

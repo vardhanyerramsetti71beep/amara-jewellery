@@ -17,6 +17,10 @@ ul{list-style:none}
 .skip{position:fixed;left:12px;top:-60px;z-index:200;background:#fff;color:#000;padding:10px 14px;transition:top .2s}
 .skip:focus{top:12px}
 html.lock{overflow:hidden}
+/* The hidden attribute must win over the display set below (.modal is grid, .drawer is flex).
+   Without this the closed quick-view modal stays laid out over the whole page at opacity 0
+   and takes every click and tap. */
+[hidden]{display:none!important}
 
 .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
 .link{position:relative;font-size:13px;letter-spacing:.02em;padding:4px 0;color:inherit}
