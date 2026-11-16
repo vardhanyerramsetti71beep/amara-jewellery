@@ -287,6 +287,8 @@
       return;
     }
     if (d.metal) {
+      // <html data-metal> holds the ring colour chosen on the page; it is not a button
+      if (!modal.contains(t)) return;
       qv.metal = d.metal;
       modal.dataset.metal = tintOf(byId(qv.id), qv.metal);
       $$("[data-metal]", modal).forEach((b) => b.setAttribute("aria-pressed", b === t));
